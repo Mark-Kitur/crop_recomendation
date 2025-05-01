@@ -3,8 +3,8 @@ import joblib
 
 app= Flask(__name__)
 
-model= joblib.load(open(r"E:\data sciences\crop_recomendation\crop_model.pkl", "rb"))
-crops = joblib.load(open(r"E:\data sciences\crop_recomendation\crop_map.pkl", "rb"))
+model = joblib.load(open("crop_model.pkl", "rb"))
+crops = joblib.load(open("crop_map.pkl", "rb"))
 
 @app.route('/')
 
