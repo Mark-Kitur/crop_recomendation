@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
-import pickle
+import joblib
 
 app= Flask(__name__)
 
-model= pickle.load(open(r"E:\data sciences\crop_recomendation\crop_model.pkl", "rb"))
-crops = pickle.load(open(r"E:\data sciences\crop_recomendation\crop_map.pkl", "rb"))
+model= joblib.load(open(r"E:\data sciences\crop_recomendation\crop_model.pkl", "rb"))
+crops = joblib.load(open(r"E:\data sciences\crop_recomendation\crop_map.pkl", "rb"))
 
 @app.route('/')
 
