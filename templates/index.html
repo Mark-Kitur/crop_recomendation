@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crop Selector</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f8ff;
+            padding: 40px;
+            color: #333;
+        }
+
+        .container {
+            background: #fff;
+            max-width: 600px;
+            margin: auto;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        label {
+            font-weight: 500;
+            margin-top: 15px;
+            display: block;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        .result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 20px;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Crop Recommendation System</h1>
+        <form action="/predict" method="post">
+            <label for="nitrogen">Nitrogen (N):</label>
+            <input type="text" id="nitrogen" name="nitrogen">
+
+            <label for="phosphorus">Phosphorus (P):</label>
+            <input type="text" id="phosphorus" name="phosphorus">
+
+            <label for="potassium">Potassium (K):</label>
+            <input type="text" id="potassium" name="potassium">
+
+            <label for="temperature">Temperature (°C):</label>
+            <input type="text" id="temperature" name="temperature">
+
+            <label for="humidity">Humidity (%):</label>
+            <input type="text" id="humidity" name="humidity">
+
+            <label for="ph">Soil pH:</label>
+            <input type="text" id="ph" name="ph">
+
+            <label for="rainfall">Rainfall (mm):</label>
+            <input type="text" id="rainfall" name="rainfall">
+
+            <input type="submit" value="Predict Crop">
+        </form>
+
+        {% if crop %}
+        <div class="result">
+            <strong>Predicted Crop:</strong> {{ crop }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
