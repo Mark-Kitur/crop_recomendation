@@ -68,6 +68,11 @@
 <body>
     <div class="container">
         <h1>Crop Recommendation System</h1>
+        {% if crop %}
+        <div class="result">
+            <strong>Predicted Crop:</strong> {{ crop }}
+        </div>
+        {% endif %}
         <form action="/predict" method="post">
             <label for="nitrogen">Nitrogen (N):</label>
             <input type="text" id="nitrogen" name="nitrogen">
@@ -93,11 +98,7 @@
             <input type="submit" value="Predict Crop">
         </form>
 
-        {% if crop %}
-        <div class="result">
-            <strong>Predicted Crop:</strong> {{ crop }}
-        </div>
-        {% endif %}
+        
     </div>
 </body>
 </html>
