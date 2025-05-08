@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crop Prediction</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 600px; margin: 50px auto; padding: 20px; background-color: #f1f1f1; border-radius: 8px; }
+        input, button { width: 100%; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Crop Prediction</h2>
+
+        {% if crop %}
+        <div class="result">
+            <strong>Recommended Crop:</strong> {{ crop }}
+        </div>
+        {% endif %}
+        <h3>
+            <a href="/">← Back to Home</a>
+        </h3>
+        
+        <form method="POST" action="/predict">
+            <label>Nitrogen:</label>
+            <input type="text" name="nitrogen" required>
+
+            <label>Phosphorus:</label>
+            <input type="text" name="phosphorus" required>
+
+            <label>Potassium:</label>
+            <input type="text" name="potassium" required>
+
+            <label>Temperature:</label>
+            <input type="text" name="temperature" required>
+
+            <label>Humidity:</label>
+            <input type="text" name="humidity" required>
+
+            <label>pH Value:</label>
+            <input type="text" name="ph" required>
+
+            <label>Rainfall:</label>
+            <input type="text" name="rainfall" required>
+
+            <button type="submit">Predict Crop</button>
+        </form>
+    </div>
+</body>
+</html>
