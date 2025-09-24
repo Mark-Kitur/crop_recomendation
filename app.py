@@ -49,20 +49,66 @@ def recommend():
             optimum = crop_optimums.get(key)
             if optimum is None:
                 continue
-            lower = optimum * 0.9
-            upper = optimum * 1.1
-
-            if user_val < lower:
-                recommendations[key] = f"Increase {key} (Current: {user_val}, Optimal: {optimum})"
-            elif user_val > upper:
-                recommendations[key] = f"Reduce {key} (Current: {user_val}, Optimal: {optimum})"
-            else:
-                recommendations[key] = f"{key} is optimal (Current: {user_val})"
+            recommendations.update(generate_advice(key,user_val,optimum))
 
         return render_template("result.html", crop=crop, recommendations=recommendations)
 
     return render_template("recommend.html", crops=crop_list)
 
+def generate_advice(nutrient, user_val, optimum):
+    lower = optimum * 0.8
+    upper = optimum * 1.2
+    advice = {}
+
+    # Nutrients advice
+    if nutrient in ["Nitrogen", "Phosphorus", "Potassium"]:
+        fert = {
+            "Nitrogen": "Urea (46% N)",
+            "Phosphorus": "DAP (Diammonium Phosphate, 46% P, 18% N)",
+            "Potassium": "MOP (Muriate of Potash, 60% K2O)"
+        }[nutrient]
+
+        if user_val < lower:
+            advice[nutrient] = f"{nutrient} is low (Current: {user_val}, Optimal: {optimum}). Apply {fert} around {round(lower,1)}–{round(upper,1)} kg/acre."
+        elif user_val > upper:
+            advice[nutrient] = f"{nutrient} is high (Current: {user_val}, Optimal: {optimum}). Avoid extra application of {fert}."
+        else:
+            advice[nutrient] = f"{nutrient} is optimal (Current: {user_val})."
+
+    # Environmental factors
+    elif nutrient == "Temperature":
+        if user_val < lower:
+            advice[nutrient] = f"Temperature too low ({user_val}°C). Consider greenhouse or wait for warmer season."
+        elif user_val > upper:
+            advice[nutrient] = f"Temperature too high ({user_val}°C). Use shade nets or increase irrigation."
+        else:
+            advice[nutrient] = f"Temperature is optimal ({user_val}°C)."
+
+    elif nutrient == "Humidity":
+        if user_val < lower:
+            advice[nutrient] = f"Humidity too low ({user_val}%). Use mulching or more irrigation."
+        elif user_val > upper:
+            advice[nutrient] = f"Humidity too high ({user_val}%). Improve ventilation or drainage."
+        else:
+            advice[nutrient] = f"Humidity is optimal ({user_val}%)."
+
+    elif nutrient == "pH_Value":
+        if user_val < lower:
+            advice[nutrient] = f"Soil too acidic (pH {user_val}). Apply lime or organic matter."
+        elif user_val > upper:
+            advice[nutrient] = f"Soil too alkaline (pH {user_val}). Apply gypsum or organic compost."
+        else:
+            advice[nutrient] = f"Soil pH is optimal (pH {user_val})."
+
+    elif nutrient == "Rainfall":
+        if user_val < lower:
+            advice[nutrient] = f"Rainfall too low ({user_val} mm). Use irrigation or water harvesting."
+        elif user_val > upper:
+            advice[nutrient] = f"Rainfall too high ({user_val} mm). Improve drainage or use raised beds."
+        else:
+            advice[nutrient] = f"Rainfall is optimal ({user_val} mm)."
+
+    return advice
 
 if __name__ == '__main__':
     app.run(debug=True)
