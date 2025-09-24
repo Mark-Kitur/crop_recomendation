@@ -22,7 +22,7 @@ def predict():
             # Convert all inputs to float
             features = [float(x) for x in request.form.values()]
         except ValueError:
-            flash("⚠️ Please enter only numbers (integer or float).")
+            flash("Please enter only numbers (integer or float).")
             return redirect(url_for("predict"))
 
         prediction = model.predict([features])[0]
@@ -55,7 +55,7 @@ def recommend():
                 "Rainfall": float(request.form["rainfall"])
             }
         except ValueError:
-            flash("⚠️ Please enter only numbers (integer or float).")
+            flash(" Please enter only numbers (integer or float).")
             return redirect(url_for("recommend"))
 
         recommendations = {}

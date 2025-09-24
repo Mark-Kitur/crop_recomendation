@@ -2,21 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Recommendations</title>
+    <title>Crop Recommendations</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; background-color: #f1f1f1; border-radius: 8px; }
-        h2 { text-align: center; }
-        ul { padding-left: 20px; }
-        a { display: block; margin-top: 20px; text-align: center; color: #4CAF50; text-decoration: none; }
+        body { 
+            font-family: Arial, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            background-color: #e8f5e9; 
+            margin: 0;
+        }
+        .card {
+            background: #fff; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+            max-width: 600px; 
+            width: 100%;
+        }
+        h2 { 
+            text-align: center; 
+            margin-bottom: 20px; 
+            color: #2e7d32; 
+        }
+        ul { 
+            padding-left: 20px; 
+        }
+        li { 
+            margin: 8px 0; 
+        }
+        a { 
+            display: block; 
+            margin-top: 20px; 
+            text-align: center; 
+            color: #2e7d32; 
+            text-decoration: none; 
+            font-weight: bold; 
+        }
+        a:hover { 
+            text-decoration: underline; 
+        }
     </style>
 </head>
 <body>
-    <h2>Recommendations for {{ crop }}</h2>
-    <ul>
-        {% for key, value in recommendations.items() %}
-            <li><strong>{{ key }}</strong>: {{ value }}</li>
-        {% endfor %}
-    </ul>
-    <a href="/">← Back to Home</a>
+    <div class="card">
+        <h2>Recommendations for {{ crop }}</h2>
+        <ul>
+            {% for key, value in recommendations.items() %}
+                <li><strong>{{ key }}</strong>: {{ value }}</li>
+            {% endfor %}
+        </ul>
+        <a href="/">← Back to Home</a>
+    </div>
 </body>
 </html>
