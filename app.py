@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import *
 import joblib
 
 app = Flask(__name__)
+app.secret_key = "vsdvsdw4teryteYUYT&^T*^&)" # We can change based on what we agree the secret key to be
 
 # Load models and data
 model = joblib.load(open("crop_model.pkl", "rb"))
@@ -17,10 +18,17 @@ def home():
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
     if request.method == 'POST':
-        features = [float(x) for x in request.form.values()]
+        try:
+            # Convert all inputs to float
+            features = [float(x) for x in request.form.values()]
+        except ValueError:
+            flash("⚠️ Please enter only numbers (integer or float).")
+            return redirect(url_for("predict"))
+
         prediction = model.predict([features])[0]
         crop_name = list(crops.keys())[list(crops.values()).index(prediction)]
         return render_template('pred.html', crop=crop_name)
+
     return render_template('pred.html')
 
 
@@ -32,17 +40,23 @@ def recommend():
         crop_optimums = final_dict.get(crop)
 
         if not crop_optimums:
-            return f"No data found for {crop}"
+            flash(f"No data found for {crop}")
+            return redirect(url_for("recommend"))
 
-        user_inputs = {
-            "Nitrogen": float(request.form["nitrogen"]),
-            "Phosphorus": float(request.form["phosphorus"]),
-            "Potassium": float(request.form["potassium"]),
-            "Temperature": float(request.form["temperature"]),
-            "Humidity": float(request.form["humidity"]),
-            "pH_Value": float(request.form["ph"]),
-            "Rainfall": float(request.form["rainfall"])
-        }
+        user_inputs = {}
+        try:
+            user_inputs = {
+                "Nitrogen": float(request.form["nitrogen"]),
+                "Phosphorus": float(request.form["phosphorus"]),
+                "Potassium": float(request.form["potassium"]),
+                "Temperature": float(request.form["temperature"]),
+                "Humidity": float(request.form["humidity"]),
+                "pH_Value": float(request.form["ph"]),
+                "Rainfall": float(request.form["rainfall"])
+            }
+        except ValueError:
+            flash("⚠️ Please enter only numbers (integer or float).")
+            return redirect(url_for("recommend"))
 
         recommendations = {}
         for key, user_val in user_inputs.items():

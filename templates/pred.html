@@ -13,6 +13,16 @@
     <div class="container">
         <h2>Crop Prediction</h2>
 
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul style="color: red;">
+                {% for msg in messages %}
+                    <li>{{ msg }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
         {% if crop %}
         <div class="result">
             <strong>Recommended Crop:</strong> {{ crop }}
