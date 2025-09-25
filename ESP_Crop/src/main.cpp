@@ -1,17 +1,18 @@
 #include <Arduino.h>
 #include <LiquidCrystal.h>
 #include <DHT.h>
-// #include <EloquentTinyML.h>
-#include "model.h"   // Your exported RandomForest model
+#include "model.h" 
+  
 
-// LCD pin setup (avoid GPIO0 which is used by DHT11)
-// LiquidCrystal lcd(13, 5, 4, 14, 2, 12); // RS, E, D4, D5, D6, D7
+// trigger pin
+int button_pin=16;
+/// LCD setup
 const int RS = 4, EN = 0, d4 = 14, d5 = 12, d6 = 13, d7 = 15;   
 LiquidCrystal lcd(RS, EN, d4, d5, d6, d7);
 
 // DHT11 setup
-#define DHTPIN 2     // GPIO0 (D3 on NodeMCU)
-#define DHTTYPE 11    // DHT11 sensor
+#define DHTPIN 2     
+#define DHTTYPE 11    
 DHT dht(DHTPIN, DHTTYPE);
 
 // Machine Learning
@@ -29,17 +30,18 @@ const char* crops[] = {
 
 // Helper function: generate pseudo-random values
 float randomval(float minVal, float maxVal) {
-  return random(minVal * 10, maxVal * 10) / 10.0;  // one decimal precision
+  return random(minVal * 10, maxVal * 10) / 10.0;
 }
 
 void setup() {
+  pinMode(button_pin,INPUT_PULLUP);
   Serial.begin(9600);
   dht.begin();
   lcd.begin(16, 2);
   lcd.print("Smart Farming");
   delay(2000);
   lcd.clear();
-  randomSeed(analogRead(A0));  // better random seed
+  randomSeed(analogRead(A0));  
 }
 
 void loop() {
@@ -65,7 +67,6 @@ void loop() {
   float Rainfall = randomval(50, 300); // mm
 
   // Pack inputs [N, P, K, Temp, Humidity, pH, Rainfall]
-  //93,56,36,24.01497622,82.05687182,6.98435366,185.2773389,
   float inputs[] = {N,P,K,temperature,humidity,pH,Rainfall};
 
   // Predict crop
@@ -88,8 +89,7 @@ void loop() {
   lcd.print("C Hum:");
   lcd.print(humidity, 0);
 
-  delay(5000);  // refresh every 5 seconds
+  delay(5000);  
 }
 
 
-// evans 
