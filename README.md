@@ -1,4 +1,6 @@
 Smart Crop Recommendation System
+
+
 **Overview**
 
 This project implements a Crop Recommendation System that suggests the most suitable crop to grow based on soil nutrients and environmental conditions. It combines Machine Learning (ML) with IoT (ESP8266 microcontroller) to support precision agriculture.
