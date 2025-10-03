@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  temperature: 1.5
+  humidity: 1.5
+  rainfall: 1.5
+  ph_value: 1.5
+  nitrogen: 1.5
+  phosphorus: 1.5
+  potassium: 1.5
+  soil_moisture: 1.5
+  farm: one
+
+two:
+  temperature: 1.5
+  humidity: 1.5
+  rainfall: 1.5
+  ph_value: 1.5
+  nitrogen: 1.5
+  phosphorus: 1.5
+  potassium: 1.5
+  soil_moisture: 1.5
+  farm: two
