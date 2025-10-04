@@ -13,5 +13,8 @@ Rails.application.routes.draw do
   # Device sends data here (no farm_id needed)
   resources :data_points, only: [:create]
 
+  # config/routes.rb
+post "/predict", to: "data_points#run_model"
+
   get "/health", to: proc { [200, {}, ["OK"]] }
 end
