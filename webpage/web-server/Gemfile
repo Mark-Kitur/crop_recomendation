@@ -52,3 +52,5 @@ group :development, :test do
 end
 
 
+
+gem "onnxruntime", "~> 0.10.1"
