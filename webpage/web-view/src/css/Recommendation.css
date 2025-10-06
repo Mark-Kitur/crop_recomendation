@@ -1,0 +1,84 @@
+.page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #f9fafc, #eef4ff);
+  padding: 40px 20px;
+  font-family: "Inter", sans-serif;
+  color: #333;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #222;
+}
+
+.dropdown-section {
+  max-width: 600px;
+  margin: 0 auto 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+select {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: 0.2s;
+}
+
+select:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 4px #4f46e5;
+}
+
+.recommendations {
+  max-width: 700px;
+  margin: 30px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.recommendations ul {
+  list-style: none;
+  padding: 0;
+}
+
+.recommendations li {
+  background: #f4f9f4;
+  border-left: 5px solid #22c55e;
+  margin: 12px 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+}
+
+.loading {
+  text-align: center;
+  color: #555;
+  font-size: 1rem;
+}
+
+.recommendations {
+  margin-top: 20px;
+}
+
+.recommendations h4 {
+  margin-top: 15px;
+  color: #2a7b2e;
+}
+
+.recommendations ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.recommendations li {
+  margin: 6px 0;
+  background: #f8f9fa;
+  padding: 8px 12px;
+  border-radius: 6px;
+}

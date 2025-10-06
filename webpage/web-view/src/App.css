@@ -1,38 +1,221 @@
-.App {
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background-color: #f8f9fa;
+}
+
+.navbar, .footer {
+  background-color: #228B22;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+.page {
+  padding: 2rem;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 10px;
+}
+
+input, button {
+  padding: 10px;
+  width: 250px;
+}
+
+button {
+  background-color: #f3f3f3;
+  color: rgb(0, 0, 0);
+  border: none;
+  width: max-content;
+
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.footer {
+  text-align: center;
+}
+
+.recommendation-summary {
+  background-color: #f1f9f1;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 10px;
+  border-left: 5px solid #228B22;
+}
+
+.recommendation-summary h3 {
+  color: #228B22;
+  margin-bottom: 0.5rem;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+}
+
+.data-table th, .data-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.data-table th {
+  background-color: #228B22;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.data-table tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* ======= GENERAL LAYOUT ======= */
+.page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f7f9fb;
+  font-family: 'Poppins', sans-serif;
+}
+
+.page h2 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1b4332;
+  margin-bottom: 2rem;
+}
+
+/* ======= RECOMMENDATION SUMMARY ======= */
+.recommendation-summary {
+  background: linear-gradient(135deg, #d8f3dc, #b7e4c7);
+  padding: 1.8rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recommendation-summary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+.recommendation-summary h3 {
+  font-size: 1.3rem;
+  color: #081c15;
+  margin-bottom: 0.75rem;
+}
+
+.recommendation-summary p {
+  font-size: 1.1rem;
+  margin: 0.3rem 0;
+  color: #081c15;
+}
+
+/* ======= CHART CONTAINERS ======= */
+h3 {
+  font-size: 1.25rem;
+  margin: 1.5rem 0 1rem;
+  color: #1b4332;
+}
+
+.recharts-wrapper {
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+/* ======= TABLE ======= */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.data-table th {
+  background-color: #1b4332;
+  color: white;
+  padding: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.data-table td {
+  padding: 0.9rem;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+  color: #333;
+}
+
+.data-table tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.data-table tr:hover {
+  background-color: #e9f5ec;
+}
+
+/* ======= RESPONSIVE ======= */
+@media (max-width: 768px) {
+  .page {
+    padding: 1rem;
   }
-  to {
-    transform: rotate(360deg);
+
+  .recommendation-summary {
+    text-align: center;
   }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  .data-table th, .data-table td {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* ======= ANIMATIONS ======= */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page, .recommendation-summary, .recharts-wrapper, .data-table {
+  animation: fadeIn 0.5s ease-in-out;
 }

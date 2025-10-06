@@ -1,0 +1,35 @@
+.navbar {
+    background: var(--primary-green);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+}
+  
+.navbar-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.navbar-links a {
+    color: white;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.navbar-links a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .navbar-links {
+        display: none;
+    }
+}
+  
