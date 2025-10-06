@@ -1,8 +1,9 @@
+import os
 from flask import *
 import joblib
 
 app = Flask(__name__)
-app.secret_key = "vsdvsdw4teryteYUYT&^T*^&)" # We can change based on what we agree the secret key to be
+app.secret_key = os.getenv("APP_SECRET_KEY", "default_secret_key")
 
 # Load models and data
 model = joblib.load(open("crop_model.pkl", "rb"))
@@ -124,5 +125,23 @@ def generate_advice(nutrient, user_val, optimum):
 
     return advice
 
+@app.route('/data_points', methods=['POST'])
+def receive_data():
+
+    data = request.get_json()
+    print("Received JSON:", data)
+    vals = [[
+        float(data['Nitrogen']),
+        float(data['Phosphorus']),
+        float(data['Potasium']),
+        float(data['Temperature']),
+        float(data['Humidity']),
+        float(data['pH']),
+        float(data['rainfall'])
+    ]]
+    esp_pred = int(model.predict(vals)[0])
+    crop_name = [name for name, idx in crops.items() if idx == esp_pred][0]
+    print(f'Predicted Crop: {crop_name}')
+    return jsonify({'predicted_crop': crop_name})
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=3000)

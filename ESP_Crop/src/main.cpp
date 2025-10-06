@@ -154,11 +154,11 @@ void sendWeb(float temperature, float humidity, float Rainfall, float pH, float 
     // jsonData += "}}"; 
 
     String jsonData = "{";
-    jsonData += "\"temperature\":" + String(temperature,1) + ",";
-    jsonData += "\"humidity\":" + String(humidity,1) + ",";
-    jsonData += "\"N\":" + String(N) + ",";
-    jsonData += "\"P\":" + String(P) + ",";
-    jsonData += "\"K\":" + String(K) + ",";
+    jsonData += "\"Nitrogen\":" + String(N,1) + ",";
+    jsonData += "\"Phosphorus\":" + String(P,1) + ",";
+    jsonData += "\"Potasium\":" + String(K) + ",";
+    jsonData += "\"Temperature\":" + String(temperature) + ",";
+    jsonData += "\"Humidity\":" + String(humidity) + ",";
     jsonData += "\"pH\":" + String(pH) + ",";
     jsonData += "\"rainfall\":" + String(Rainfall);
     jsonData += "}";  
