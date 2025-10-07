@@ -1,18 +1,22 @@
 .auth-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: linear-gradient(135deg, #4caf50, #81c784);
-  font-family: "Poppins", sans-serif;
+    background-image: url('../assets/young-plants-growing-very-large-plant-commercial-greenhouse.jpg'); /* relative or absolute path */
+    background-size: cover;      /* scales image to cover the whole section */
+    background-position: center; /* centers the image */
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff4a;
+    font-family: "Poppins", sans-serif;
 }
 
 .auth-card {
-  background: white;
-  padding: 2.5rem;
+  background: rgba(205, 204, 204, 0.567);
+  padding: 1.5rem;
   border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  width: 350px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.72);
+  width: 50%;
   text-align: center;
 }
 
@@ -22,27 +26,31 @@
 }
 
 .auth-card form {
-  display: flex;
-  flex-direction: column;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .auth-card input {
-  margin-bottom: 1rem;
-  padding: 0.8rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
+    width: 80%;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: rgb(255 255 255 / 67%);
 }
 
 .auth-card button {
-  padding: 0.8rem;
-  border: none;
-  background-color: #4caf50;
-  color: white;
-  font-size: 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s;
+    width: 80%;
+    padding: 0.8rem;
+    border: none;
+    background-color: #4caf50;
+    color: white;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
 .auth-card button:hover {
@@ -55,7 +63,7 @@
 }
 
 .auth-card a {
-  color: #4caf50;
+  color: #499358;
   text-decoration: none;
 }
 

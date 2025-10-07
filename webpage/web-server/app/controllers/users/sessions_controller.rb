@@ -4,8 +4,9 @@ class Users::SessionsController < Devise::SessionsController
   respond_to :json
 
   def destroy
-    super
-    clear_jwt_cookie
+    super do
+      clear_jwt_cookie
+    end
   end
 
   private

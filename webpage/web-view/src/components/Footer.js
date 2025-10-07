@@ -3,7 +3,7 @@ import "./Footer.css";
 
 const Footer = () => (
   <footer className="footer">
-    <p>© {new Date().getFullYear()} SmartCrop. All rights reserved.</p>
+    <p>© {new Date().getFullYear()} CropIQ. All rights reserved.</p>
   </footer>
 );
 

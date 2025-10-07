@@ -1,138 +1,95 @@
-/* .prediction-page {
+.prediction-page {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 4rem 1rem;
-    background: var(--light-green);
-    min-height: calc(100vh - 120px);
-  }
-  
-  .prediction-card {
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    padding: 2rem 2.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
     width: 100%;
-    max-width: 600px;
-  }
-  
-  .prediction-card h2 {
+    max-width: 1200px;
+    padding: 30px;
     text-align: center;
-    color: var(--dark-green);
-    margin-bottom: 1rem;
-}
-  
-.prediction-result {
-    text-align: center;
-    margin-top: 1.5rem;
-    font-size: 1.1rem;
-    color: var(--primary-green);
-}
-  
-.page {
-  min-height: 100vh;
-  padding: 40px;
-  background: #f9fafc;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    background-image: url('../assets/strawberry-field.jpg'); /* relative or absolute path */
+    background-size: cover;      /* scales image to cover the whole section */
+    background-position: center; /* centers the image */
+    background-repeat: no-repeat;
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-  margin-bottom: 20px;
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px 12px;
-  text-align: center;
-}
-
-th {
-  background: #007bff;
-  color: white;
-}
-
-button {
-  background: #28a745;
-  color: white;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #218838;
-} */
-
-.page {
-  width: 90%;
-  max-width: 1000px;
-  margin: 40px auto;
-  padding: 30px;
-  text-align: center;
+.prediction-container {
+    padding: 20px;
+    width: 70%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(205, 204, 204, 0.567);
 }
 
 .prediction-page h2 {
-  font-size: 2rem;
-  margin-bottom: 25px;
-  color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    width: 70%;
+    border-radius: 8px;
+    background: rgba(205, 204, 204, 0.567);
 }
 
-.card {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  margin-bottom: 30px;
+.prediction-card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
 }
 
 .prediction-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px;
-  margin-top: 15px;
-  text-align: left;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-top: 15px;
+    text-align: left;
+    width: 70%;
 }
 
 .actions {
-  margin: 25px 0;
+    margin: 25px 0;
+    width: 70%;
 }
 
 .predict-btn {
-  padding: 12px 25px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #fff;
-  background: linear-gradient(135deg, #28a745, #2ecc71);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s ease;
+    width: 70%;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #28a745, #2ecc71);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.prediction-container h3{
+    width: 60%;
 }
 
 .predict-btn:hover {
-  transform: scale(1.05);
-  background: linear-gradient(135deg, #239b56, #27ae60);
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #239b56, #27ae60);
 }
 
 .predict-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
+    opacity: 0.7;
+    cursor: not-allowed;
 }
 
 .data-table {
-  width: 100%;
-  margin-top: 20px;
-  border-collapse: collapse;
-  border-radius: 8px;
-  overflow: hidden;
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .data-table th, .data-table td {

@@ -20,13 +20,18 @@
 }
   
 .home-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 80vh;
-  text-align: center;
-  padding: 20px;
+    background-image: url('../assets/young-plants-growing-very-large-plant-commercial-greenhouse.jpg'); /* relative or absolute path */
+    background-size: cover;      /* scales image to cover the whole section */
+    background-position: center; /* centers the image */
+    background-repeat: no-repeat;
+    background-color: rgba(255, 255, 255, 0.467);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 84vh;
+    text-align: center;
+    padding: 20px;
 }
 
 .home-page h1 {
@@ -78,8 +83,10 @@
     align-items: center;
     display: flex;
     width: 80%;
+    max-width: 1000px;
     column-gap: 10px;
     height: 500px;
-    border: 1.5px solid black;
-    border-radius: 3px;
+    border-radius: 12px;
+    background-color: rgba(225, 225, 225, 0.66);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.72);
 }

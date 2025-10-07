@@ -8,6 +8,7 @@
 #
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
+
 Devise.setup do |config|
   
   # The secret key used by Devise. Devise uses this key to generate
@@ -309,17 +310,19 @@ Devise.setup do |config|
   # ==> Configuration for :registerable
 
   # ==> JWT configuration
-  config.jwt do |jwt|
-    jwt.secret = ENV['DEVISE_JWT_SECRET_KEY']
-    jwt.dispatch_requests = [
-      ['POST', %r{^/users/sign_in$}],
-      ['POST', %r{^/users$}] # signup also issues a cookie
-    ]
-    jwt.revocation_requests = [
-      ['DELETE', %r{^/users/sign_out$}]
-    ]
-    jwt.expiration_time = 1.day.to_i
-    jwt.request_formats = { user: [:json] }
+  Rails.application.config.to_prepare do
+    require_dependency Rails.root.join("app/models/jwt_denylist").to_s
+
+    config.jwt do |jwt|
+      jwt.secret = ENV.fetch('DEVISE_JWT_SECRET_KEY')
+      jwt.dispatch_requests = [
+        ['POST', %r{^/users/sign_in$}],
+        ['POST', %r{^/users$}]
+      ]
+      jwt.revocation_requests = [
+        ['DELETE', %r{^/users/sign_out$}]
+      ]
+    end
   end
 
   # When set to false, does not sign a user in automatically after their password is
