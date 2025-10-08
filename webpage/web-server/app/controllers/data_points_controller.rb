@@ -9,11 +9,12 @@ class DataPointsController < ApplicationController
   SESSION = OnnxRuntime::Model.new(MODEL_PATH)
 
   CROP_LABELS = [
-    "rice", "wheat", "maize", "chickpea", "kidneybeans",
-    "pigeonpeas", "mothbeans", "mungbean", "blackgram", "lentil",
-    "pomegranate", "banana", "mango", "grapes", "watermelon",
-    "muskmelon", "apple", "orange", "papaya", "coconut",
-    "cotton", "jute", "coffee"
+    "Chickpea", "Watermelon", "Jute", "Muskmelon",
+    "Kidneybeans", "Mothbeans", "Rice", "Pomogranate",
+    "Maize", "Pigeon peas", "Grapes", "Mango",
+    "Coconut", "Coffee", "Cotton", "Apple",
+    "Mungbeans", "Blackgram", "Orange", "Lentil",
+    "Papaya", "Banana"
   ]
 
   # 📡 ESP8266 sends sensor data (via X-DEVICE-UID header)
@@ -24,17 +25,32 @@ class DataPointsController < ApplicationController
     # The user has exactly one farm for now
     farm = user.farms.first_or_create(name: "Default Farm")
 
+    dp = params[:data_point] || {}
+
     # Ensure only one data point per farm (overwrite previous)
-    data_point = farm.data_points.first_or_initialize
-    data_point.assign_attributes(
-      nitrogen: params[:nitrogen],
-      phosphorus: params[:phosphorus],
-      potassium: params[:potassium],
-      temperature: params[:temperature],
-      humidity: params[:humidity],
-      ph_value: params[:ph_value],
-      rainfall: params[:rainfall]
-    )
+    data_point = farm.data_points.first
+
+    if data_point
+      data_point.update(
+        nitrogen: dp[:nitrogen],
+        phosphorus: dp[:phosphorus],
+        potassium: dp[:potassium],
+        temperature: dp[:temperature],
+        humidity: dp[:humidity],
+        ph_value: dp[:ph_value],
+        rainfall: dp[:rainfall]
+      )
+    else
+      data_point = farm.data_points.create(
+        nitrogen: dp[:nitrogen],
+        phosphorus: dp[:phosphorus],
+        potassium: dp[:potassium],
+        temperature: dp[:temperature],
+        humidity: dp[:humidity],
+        ph_value: dp[:ph_value],
+        rainfall: dp[:rainfall]
+      )
+    end
 
     if data_point.save
       prediction = predict_crop(data_point)
@@ -47,7 +63,7 @@ class DataPointsController < ApplicationController
   # 🧠 For testing the ONNX model directly
   def run_model
     test_input = { "float_input" => [[134.6, 12.57, 34.46, 67.7, 89.12, 80.67, 20.3]] }
-    output = SESSION.predict(test_input)
+    output = SESSION.predict(data_point)
     render json: format_prediction(output)
   end
 
