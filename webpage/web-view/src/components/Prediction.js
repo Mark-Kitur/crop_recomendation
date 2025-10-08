@@ -45,7 +45,6 @@ const Prediction = () => {
         const refreshed = Array.isArray(res.data) ? res.data : [res.data];
         const updated = { ...latestData, ...res.data };
         setDataPoints([...dataPoints.slice(0, -1), updated]);
-
     } catch (err) {
         console.error(err);
         setError("Prediction failed. Please try again.");

@@ -4,8 +4,8 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // 👈 added
 
-  // Auto-login
   useEffect(() => {
     fetch("http://localhost:3000/users/me", {
       method: "GET",
@@ -13,16 +13,17 @@ export const AuthProvider = ({ children }) => {
     })
       .then(res => (res.ok ? res.json() : Promise.reject()))
       .then(data => setUser(data))
-      .catch(() => setUser(null));
+      .catch(() => setUser(null))
+      .finally(() => setLoading(false)); // 👈 done fetching
   }, []);
 
   const login = async (email, password) => {
     const res = await fetch("http://localhost:3000/users/sign_in", {
       method: "POST",
-      credentials: "include", // send & store cookie
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json", // ✅ tells Rails this is a JSON request
+        "Accept": "application/json",
       },
       body: JSON.stringify({ user: { email, password } }),
     });
@@ -38,7 +39,7 @@ export const AuthProvider = ({ children }) => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json", // ✅ tells Rails this is a JSON request
+        "Accept": "application/json",
       },
       body: JSON.stringify({ user: { email, password, device_uid } }),
     });
@@ -57,7 +58,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
   );

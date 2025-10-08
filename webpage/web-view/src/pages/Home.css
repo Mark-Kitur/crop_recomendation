@@ -21,7 +21,7 @@
   
 .home-page {
     background-image: url('../assets/young-plants-growing-very-large-plant-commercial-greenhouse.jpg'); /* relative or absolute path */
-    background-size: cover;      /* scales image to cover the whole section */
+    background-size: cover;      
     background-position: center; /* centers the image */
     background-repeat: no-repeat;
     background-color: rgba(255, 255, 255, 0.467);
@@ -29,7 +29,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 84vh;
+    min-height: 85vh;
     text-align: center;
     padding: 20px;
 }
