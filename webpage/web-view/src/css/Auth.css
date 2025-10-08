@@ -17,6 +17,8 @@
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.72);
   width: 50%;
+  min-width: 370px;
+  max-width: 500px;
   text-align: center;
 }
 

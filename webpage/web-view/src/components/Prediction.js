@@ -17,17 +17,17 @@ const Prediction = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await api.get("/my_data_point", {
-          headers: { Accept: "application/json" },
-        });
-        const data = Array.isArray(res.data) ? res.data : [res.data];
-        setDataPoints(data);
-      } catch (err) {
-        console.error(err);
-        setError("Failed to load data points.");
-      } finally {
-        setLoading(false);
-      }
+            const res = await api.get("/my_data_point", {
+            headers: { Accept: "application/json" },
+            });
+            const data = Array.isArray(res.data) ? res.data : [res.data];
+            setDataPoints(data);
+        } catch (err) {
+            console.error(err);
+            setError("Failed to load data points.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     fetchData();
@@ -35,20 +35,22 @@ const Prediction = () => {
 
   const handlePredict = async () => {
     try {
-      setPredicting(true);
-      setError(null);
+        setPredicting(true);
+        setError(null);
 
-      const latestData = dataPoints[dataPoints.length - 1];
-      const res = await api.post("/predict", { data_points: [latestData] });
+        const latestData = dataPoints[dataPoints.length - 1];
+        const res = await api.post("/predict", { data_points: [latestData] });
 
-      // Replace old prediction result with the new one
-      const refreshed = Array.isArray(res.data) ? res.data : [res.data];
-      setDataPoints(refreshed);
+        // Replace old prediction result with the new one
+        const refreshed = Array.isArray(res.data) ? res.data : [res.data];
+        const updated = { ...latestData, ...res.data };
+        setDataPoints([...dataPoints.slice(0, -1), updated]);
+
     } catch (err) {
-      console.error(err);
-      setError("Prediction failed. Please try again.");
+        console.error(err);
+        setError("Prediction failed. Please try again.");
     } finally {
-      setPredicting(false);
+        setPredicting(false);
     }
   };
 

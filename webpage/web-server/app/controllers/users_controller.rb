@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :ensure_user_authenticated
 
   def me
     render json: current_user, status: :ok

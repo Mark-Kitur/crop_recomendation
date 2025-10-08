@@ -310,20 +310,20 @@ Devise.setup do |config|
   # ==> Configuration for :registerable
 
   # ==> JWT configuration
-  Rails.application.config.to_prepare do
-    require_dependency Rails.root.join("app/models/jwt_denylist").to_s
+  # Rails.application.config.to_prepare do
+  #   require_dependency Rails.root.join("app/models/jwt_denylist").to_s
 
-    config.jwt do |jwt|
-      jwt.secret = ENV.fetch('DEVISE_JWT_SECRET_KEY')
-      jwt.dispatch_requests = [
-        ['POST', %r{^/users/sign_in$}],
-        ['POST', %r{^/users$}]
-      ]
-      jwt.revocation_requests = [
-        ['DELETE', %r{^/users/sign_out$}]
-      ]
-    end
-  end
+  #   config.jwt do |jwt|
+  #     jwt.secret = ENV.fetch('DEVISE_JWT_SECRET_KEY')
+  #     jwt.dispatch_requests = [
+  #       ['POST', %r{^/users/sign_in$}],
+  #       ['POST', %r{^/users$}]
+  #     ]
+  #     jwt.revocation_requests = [
+  #       ['DELETE', %r{^/users/sign_out$}]
+  #     ]
+  #   end
+  # end
 
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.

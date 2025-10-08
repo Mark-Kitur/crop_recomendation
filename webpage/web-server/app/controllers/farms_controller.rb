@@ -1,5 +1,5 @@
 class FarmsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :ensure_user_authenticated
   before_action :set_farm, only: [:show, :update, :destroy]
 
   def index

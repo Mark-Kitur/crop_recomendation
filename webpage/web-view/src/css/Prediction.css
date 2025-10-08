@@ -3,7 +3,6 @@
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
-    max-width: 1200px;
     padding: 30px;
     text-align: center;
     background-image: url('../assets/strawberry-field.jpg'); /* relative or absolute path */
