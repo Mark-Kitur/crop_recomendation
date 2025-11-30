@@ -7,10 +7,10 @@
 #include <interrupts.h>
 
 // WiFi credentials
-const char* ssid = "GRACE D";
-const char* password = "grace019";
+const char* ssid = "Kitur";
+const char* password = "1234567890";
 
-const char* serverName = "http://192.168.2.171:3000/data_points";
+const char* serverName = "http://10.125.163.244:3000/data_points";
 
 int pin=5;
 // LCD setup
@@ -140,28 +140,28 @@ void sendWeb(float temperature, float humidity, float Rainfall, float pH, float 
     HTTPClient http;
     http.begin(client, serverName);   
     http.addHeader("Content-Type", "application/json");
-    //http.addHeader("X-DEVICE-UID", "esp8266-1234abcd");
-
-    // String jsonData = "{";
-    // jsonData += "\"data_point\":{";
-    // jsonData += "\"temperature\":" + String(temperature, 1) + ",";
-    // jsonData += "\"humidity\":" + String(humidity, 1) + ",";
-    // jsonData += "\"rainfall\":" + String(Rainfall, 1) + ",";
-    // jsonData += "\"ph_value\":" + String(pH, 1) + ",";
-    // jsonData += "\"nitrogen\":" + String(N, 1) + ",";
-    // jsonData += "\"phosphorus\":" + String(P, 1) + ",";
-    // jsonData += "\"potassium\":" + String(K, 1);
-    // jsonData += "}}"; 
+    http.addHeader("X-DEVICE-UID", "esp8266-1234abcd");
 
     String jsonData = "{";
-    jsonData += "\"Nitrogen\":" + String(N,1) + ",";
-    jsonData += "\"Phosphorus\":" + String(P,1) + ",";
-    jsonData += "\"Potasium\":" + String(K) + ",";
-    jsonData += "\"Temperature\":" + String(temperature) + ",";
-    jsonData += "\"Humidity\":" + String(humidity) + ",";
-    jsonData += "\"pH\":" + String(pH) + ",";
-    jsonData += "\"rainfall\":" + String(Rainfall);
-    jsonData += "}";  
+    jsonData += "\"data_point\":{";
+    jsonData += "\"temperature\":" + String(temperature, 1) + ",";
+    jsonData += "\"humidity\":" + String(humidity, 1) + ",";
+    jsonData += "\"rainfall\":" + String(Rainfall, 1) + ",";
+    jsonData += "\"ph_value\":" + String(pH, 1) + ",";
+    jsonData += "\"nitrogen\":" + String(N, 1) + ",";
+    jsonData += "\"phosphorus\":" + String(P, 1) + ",";
+    jsonData += "\"potassium\":" + String(K, 1);
+    jsonData += "}}"; 
+
+    // String jsonData = "{";
+    // jsonData += "\"Nitrogen\":" + String(N,1) + ",";
+    // jsonData += "\"Phosphorus\":" + String(P,1) + ",";
+    // jsonData += "\"Potasium\":" + String(K) + ",";
+    // jsonData += "\"Temperature\":" + String(temperature) + ",";
+    // jsonData += "\"Humidity\":" + String(humidity) + ",";
+    // jsonData += "\"pH\":" + String(pH) + ",";
+    // jsonData += "\"rainfall\":" + String(Rainfall);
+    // jsonData += "}";  
 
 
     int httpResponseCode = http.POST(jsonData);
