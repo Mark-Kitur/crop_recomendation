@@ -1,5 +1,6 @@
-**Smart Crop Recommendation System
-**
+**Smart Crop Recommendation System**
+
+link to the video: https://youtu.be/nVsl1SV6peM?si=QAl62YudmvHhIrHM
 
 **Overview**
 
@@ -19,11 +20,17 @@ Temperature: in °C
 Humidity: in %
 pH: Soil acidity/alkalinity
 Rainfall: in mm
+
 Tech Stack
+
 Machine Learning: Random Forest Classifier (scikit-learn)
-Web Framework: Flask (Python)
+
+Web Framework: Ruby and Flask
+
 Frontend: HTML, CSS (simple UI for predictions)
+
 Microcontroller: ESP8266 (NodeMCU)
+
 TinyML Library: micromlgen for C model export
 
 Flask Web App
@@ -32,7 +39,38 @@ Input soil & environmental parameters.
 Get the best crop recommendation.
 Receive advice on optimizing conditions (nutrients, pH, rainfall, etc.).
 
-ESP8266 Deployment
+**Ruby Backend With ONNX Runtime**
+The second deployment path validates language-agnostic inference by converting the trained Random Forest model to ONNX format.
+
+Key Steps
+
+Export trained model from Python → ONNX
+
+Load ONNX model in Ruby using onnxruntime gem
+
+Run inference directly from Ruby backend code
+
+Serve predictions to a lightweight Ruby-based web endpoint or CLI script
+
+Purpose
+
+Demonstrates cross-platform, cross-language model deployment
+
+Makes the engine compatible with Ruby web stacks (e.g., Rails, Sinatra)
+
+Confirms interoperability without retraining or rewriting ML code
+
+Ruby Deployment Capabilities
+
+The Ruby ONNX version can:
+
+Accept soil parameters via a web form or API
+
+Run fast inference locally using ONNX Runtime
+
+Return the crop recommendation + condition improvement notes
+
+**ESP8266 Deployment**
 The trained Random Forest model was converted into C code.
 Deployed on ESP8266 NodeMCU with:
 DHT11 sensor for temperature & humidity.
