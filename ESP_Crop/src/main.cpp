@@ -8,15 +8,16 @@
 
 // WiFi credentials
 const char* ssid = "Kitur";
-const char* password = "1234567890";
+const char* password = "Rugby@13";
 
 const char* serverName = "http://10.125.163.244:3000/data_points";
 
 int pin=5;
 // LCD setup
 const int RS = 4, EN = 0, d4 = 14, d5 = 12, d6 = 13, d7 = 15;   
+int soil_moisture=A0;
 LiquidCrystal lcd(RS, EN, d4, d5, d6, d7);
-
+//0704554187
 // DHT11 setup
 #define DHTPIN 2     
 #define DHTTYPE DHT11    
@@ -42,6 +43,7 @@ void sendWeb(float temperature, float humidity, float Rainfall, float pH, float 
 
 void setup() {
   Serial.begin(9600);
+  pinMode(soil_moisture, INPUT);
   dht.begin();
   lcd.begin(16, 2);
   lcd.print("Smart Farming");
@@ -66,6 +68,12 @@ void loop() {
   float humidity = dht.readHumidity();
   float temperature = dht.readTemperature();
 
+  float mos=analogRead(soil_moisture); // just to stabilize reading
+  Serial.print("Soil Moisture: ");
+  Serial.println(mos);
+  Serial.println();
+
+
   if (isnan(humidity) || isnan(temperature)) {
     Serial.println("Failed to read from DHT sensor!");
     lcd.clear();
@@ -83,15 +91,34 @@ void loop() {
   float Rainfall = randomval(50, 300);
 
   // Pack inputs
-  float inputs[] = {N, P, K, temperature, humidity, pH, Rainfall};
+  float inputs[] = {N, P, K, temperature, humidity, mos, Rainfall};
 
   // Predict crop
   int predClass = RF.predict(inputs);
   const char* crop = crops[predClass];
 
   // Print on Serial Monitor
+  Serial.print("Nitrogen:");
+  Serial.println(N);
+  Serial.print("Phosporus: ");
+  Serial.println(P);
+  Serial.print("Potasium: ");
+  Serial.println(K);
+  Serial.print("Temperature: ");
+  Serial.println(temperature);
+  Serial.print("Humidity: ");
+  Serial.println(humidity);
+  Serial.print("pH: ");
+  Serial.println(pH);
+  Serial.print("Rainfall: ");
+  Serial.println(Rainfall);
   Serial.print("Predicted Crop: ");
   Serial.println(crop);
+  Serial.println();
+  Serial.println();
+  Serial.println();
+  
+
 
   // Display on LCD
   lcd.clear();
@@ -106,9 +133,9 @@ void loop() {
 
   // Send data to web
   int button = analogRead(A0);
-  Serial.println(button);
+  //Serial.println(button);
   if (button >500){
-    Serial.println(button);
+    //Serial.println(button);
     sendWeb(temperature,humidity,Rainfall,pH,N,P,K);
   }
   // else{
@@ -122,7 +149,7 @@ void loop() {
   //   lcd.clear();
   // }
 
-   delay(3000);
+   delay(5000);
 }
 
 
