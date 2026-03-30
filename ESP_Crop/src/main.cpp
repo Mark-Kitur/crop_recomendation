@@ -7,8 +7,8 @@
 #include <interrupts.h>
 
 // WiFi credentials
-const char* ssid = "Kitur";
-const char* password = "Rugby@13";
+const char* ssid = "Blue Ocean AP";
+const char* password = "EnjoyYourStay";
 
 const char* serverName = "http://10.125.163.244:3000/data_points";
 
