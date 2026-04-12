@@ -3,3 +3,6 @@
 /node_modules
 .json
 *.log
+/fp-info-cache
+/.esp_v2_backups
+/.vscode
