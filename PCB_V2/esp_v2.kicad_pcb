@@ -117,6 +117,7 @@
 	(net 37 "Net-(FTDI1-Pin_4)")
 	(net 38 "unconnected-(U1-IO5-Pad29)")
 	(net 39 "unconnected-(U1-IO2-Pad24)")
+	(net 40 "unconnected-(VCC1-Pin_1-Pad1)")
 	(footprint "Connector_PinHeader_1.00mm:PinHeader_1x01_P1.00mm_Vertical"
 		(layer "F.Cu")
 		(uuid "25202573-c914-4112-93a2-e9e8c652ef6d")
@@ -1395,7 +1396,7 @@
 			(drill 0.5)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net 6 "VCC")
+			(net 40 "unconnected-(VCC1-Pin_1-Pad1)")
 			(pinfunction "Pin_1")
 			(pintype "passive")
 			(uuid "bbb90abc-3a70-481b-b922-93577bee8cd7")
@@ -3918,6 +3919,18 @@
 			(justify left bottom)
 		)
 	)
+	(gr_text "vcc from 9V\n"
+		(at 77 122.5 0)
+		(layer "Edge.Cuts")
+		(uuid "38a6dcd2-886d-41ba-bd49-7750debed192")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left bottom)
+		)
+	)
 	(gr_text "Desinged by Kitur"
 		(at 95.5 109 0)
 		(layer "Edge.Cuts")
@@ -4124,14 +4137,6 @@
 		(uuid "1b0a4648-ec47-40e1-a23f-64110d7d609c")
 	)
 	(segment
-		(start 71 119.5)
-		(end 70 118.5)
-		(width 0.2)
-		(layer "F.Cu")
-		(net 6)
-		(uuid "1c80a568-bd58-4c67-bd0a-32fe379f094a")
-	)
-	(segment
 		(start 106 65)
 		(end 104.5 66.5)
 		(width 0.2)
@@ -4146,14 +4151,6 @@
 		(layer "F.Cu")
 		(net 6)
 		(uuid "236d77bc-8587-4cf6-b3d2-83c64a5bfab9")
-	)
-	(segment
-		(start 75.525 75.475)
-		(end 77.525 77.475)
-		(width 0.2)
-		(layer "F.Cu")
-		(net 6)
-		(uuid "28b7e1b1-caa1-4240-ad95-1ba3c5b357b4")
 	)
 	(segment
 		(start 125 63.5)
@@ -4180,28 +4177,12 @@
 		(uuid "36449772-fd23-4ced-9309-e2d719bc80cd")
 	)
 	(segment
-		(start 70 118.5)
-		(end 70 81)
-		(width 0.2)
-		(layer "F.Cu")
-		(net 6)
-		(uuid "4181c699-7d4b-4308-b8d3-c142a2383825")
-	)
-	(segment
 		(start 145 75)
 		(end 136.5 75)
 		(width 0.2)
 		(layer "F.Cu")
 		(net 6)
 		(uuid "47319911-d00a-41b1-97f8-ac2f347ef6df")
-	)
-	(segment
-		(start 70 81)
-		(end 75.525 75.475)
-		(width 0.2)
-		(layer "F.Cu")
-		(net 6)
-		(uuid "51e1f20c-c4d0-4bad-917f-60b287a90446")
 	)
 	(segment
 		(start 104.5 75.27)
@@ -4242,14 +4223,6 @@
 		(layer "F.Cu")
 		(net 6)
 		(uuid "80465866-f0c4-4406-9743-1df6ff08b4d6")
-	)
-	(segment
-		(start 78.5 119.5)
-		(end 71 119.5)
-		(width 0.2)
-		(layer "F.Cu")
-		(net 6)
-		(uuid "850a99d7-5f6c-47c1-9a5d-63801345ee3d")
 	)
 	(segment
 		(start 107.5 75.27)
