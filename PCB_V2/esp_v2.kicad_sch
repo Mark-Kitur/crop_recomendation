@@ -2004,7 +2004,7 @@
 			(embedded_fonts no)
 		)
 	)
-	(text "VCC\n"
+	(text "S"
 		(exclude_from_sim no)
 		(at 50.8 48.26 0)
 		(effects
@@ -2014,7 +2014,17 @@
 		)
 		(uuid "328a4eab-57ce-48a3-8d9f-05d84b20b5cd")
 	)
-	(text "S\n"
+	(text "+5 VCC"
+		(exclude_from_sim no)
+		(at 143.51 35.56 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "4ce5c341-8c36-49a8-8990-0aa3bd1660a4")
+	)
+	(text "VCC"
 		(exclude_from_sim no)
 		(at 50.8 50.8 0)
 		(effects
@@ -2476,16 +2486,6 @@
 	)
 	(wire
 		(pts
-			(xy 138.43 35.56) (xy 147.32 35.56)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "bfce6b36-0ef4-47b9-be4b-935b04618955")
-	)
-	(wire
-		(pts
 			(xy 38.1 16.51) (xy 34.29 16.51)
 		)
 		(stroke
@@ -2858,28 +2858,6 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "VCC"
-		(shape input)
-		(at 147.32 35.56 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "daf0eaab-72d7-4600-9838-8994a309a4cf")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 153.9338 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
 				(hide yes)
 			)
 		)
