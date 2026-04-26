@@ -1,10 +1,15 @@
 #include <Arduino.h>
 #include <LiquidCrystal.h>
 #include <DHT.h>
+
+
+
 #include "model.h" 
-#include <ESP8266WiFi.h>         
-#include <ESP8266HTTPClient.h>   
-#include <interrupts.h>
+#include "7_in_1.h"
+
+// #include <ESP8266WiFi.h>         
+// #include <ESP8266HTTPClient.h>   
+
 
 // WiFi credentials
 const char* ssid = "Blue Ocean AP";
@@ -35,11 +40,8 @@ const char* crops[] = {
   "Papaya", "Banana"
 };
 
-float randomval(float minVal, float maxVal) {
-  return random(minVal * 10, maxVal * 10) / 10.0;
-}
 
-void sendWeb(float temperature, float humidity, float Rainfall, float pH, float N, float P, float K);
+
 
 void setup() {
   Serial.begin(9600);
@@ -51,16 +53,19 @@ void setup() {
   lcd.clear();
   randomSeed(analogRead(A0));  
 
-  //  Connect to WiFi
-  WiFi.begin(ssid, password);
-  Serial.print("Connecting to WiFi");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.print(".");
-  }
-  Serial.println("\nConnected to WiFi!");
-  Serial.print("IP Address: ");
-  Serial.println(WiFi.localIP());
+  // initilize 7_in_1 sensor
+  setitup();
+
+  // //  Connect to WiFi
+  // WiFi.begin(ssid, password);
+  // Serial.print("Connecting to WiFi");
+  // while (WiFi.status() != WL_CONNECTED) {
+  //   delay(1000);
+  //   Serial.print(".");
+  // }
+  // Serial.println("\nConnected to WiFi!");
+  // Serial.print("IP Address: ");
+  // Serial.println(WiFi.localIP());
 }
 
 void loop() {
@@ -83,35 +88,31 @@ void loop() {
     return;
   }
 
-  // Simulate soil & rainfall values
-  float N = randomval(0, 140);
-  float P = randomval(0, 140);
-  float K = randomval(0, 200);
-  float pH = randomval(4, 9);
-  float Rainfall = randomval(50, 300);
+  // fetch  data from 7 in 1 sensor
+float humidity, temperature, conductivity, pH, nitrogen, phosphorus, potassium;
+extractData(data, &humidity, &temperature, &conductivity, &pH, &nitrogen, &phosphorus, &potassium);
 
-  // Pack inputs
-  float inputs[] = {N, P, K, temperature, humidity, mos, Rainfall};
+
 
   // Predict crop
-  int predClass = RF.predict(inputs);
+  int predClass = RF.predict(nitrogen, phosphorus, potassium, humidity, temperature, pH, conductivity);
   const char* crop = crops[predClass];
 
   // Print on Serial Monitor
   Serial.print("Nitrogen:");
-  Serial.println(N);
+  Serial.println(data[4]);
   Serial.print("Phosporus: ");
-  Serial.println(P);
+  Serial.println(data[5]);
   Serial.print("Potasium: ");
-  Serial.println(K);
+  Serial.println(data[6]);
   Serial.print("Temperature: ");
   Serial.println(temperature);
   Serial.print("Humidity: ");
   Serial.println(humidity);
   Serial.print("pH: ");
-  Serial.println(pH);
+  Serial.println(data[3]);
   Serial.print("Rainfall: ");
-  Serial.println(Rainfall);
+  Serial.println(data[2]);
   Serial.print("Predicted Crop: ");
   Serial.println(crop);
   Serial.println();
@@ -131,13 +132,13 @@ void loop() {
   lcd.print("C H:");
   lcd.print(humidity, 0);
 
-  // Send data to web
-  int button = analogRead(A0);
-  //Serial.println(button);
-  if (button >500){
-    //Serial.println(button);
-    sendWeb(temperature,humidity,Rainfall,pH,N,P,K);
-  }
+  // // Send data to web
+  // int button = analogRead(A0);
+  // //Serial.println(button);
+  // if (button >500){
+  //   //Serial.println(button);
+  //   sendWeb(temperature,humidity,Rainfall,pH,N,P,K);
+  // }
   // else{
   //   Serial.println("Sender mode not ACTIVATED");
   //   lcd.clear();
@@ -150,78 +151,5 @@ void loop() {
   // }
 
    delay(5000);
-}
-
-
-void sendWeb(float temperature, float humidity, float Rainfall, float pH, float N, float P, float K)
-{
-  Serial.println("Sender mode activated");
-    lcd.clear();
-    lcd.setCursor(0,0);
-    lcd.print("Sender mode");
-    lcd.setCursor(0,1);
-    lcd.print("Activated");    
-    //  Send data to Flask
-  if (WiFi.status() == WL_CONNECTED) {
-    WiFiClient client;
-    HTTPClient http;
-    http.begin(client, serverName);   
-    http.addHeader("Content-Type", "application/json");
-    http.addHeader("X-DEVICE-UID", "esp8266-1234abcd");
-
-    String jsonData = "{";
-    jsonData += "\"data_point\":{";
-    jsonData += "\"temperature\":" + String(temperature, 1) + ",";
-    jsonData += "\"humidity\":" + String(humidity, 1) + ",";
-    jsonData += "\"rainfall\":" + String(Rainfall, 1) + ",";
-    jsonData += "\"ph_value\":" + String(pH, 1) + ",";
-    jsonData += "\"nitrogen\":" + String(N, 1) + ",";
-    jsonData += "\"phosphorus\":" + String(P, 1) + ",";
-    jsonData += "\"potassium\":" + String(K, 1);
-    jsonData += "}}"; 
-
-    // String jsonData = "{";
-    // jsonData += "\"Nitrogen\":" + String(N,1) + ",";
-    // jsonData += "\"Phosphorus\":" + String(P,1) + ",";
-    // jsonData += "\"Potasium\":" + String(K) + ",";
-    // jsonData += "\"Temperature\":" + String(temperature) + ",";
-    // jsonData += "\"Humidity\":" + String(humidity) + ",";
-    // jsonData += "\"pH\":" + String(pH) + ",";
-    // jsonData += "\"rainfall\":" + String(Rainfall);
-    // jsonData += "}";  
-
-
-    int httpResponseCode = http.POST(jsonData);
-
-    if (httpResponseCode > 0) {
-      Serial.print("Data sent. Response: ");
-      Serial.println(httpResponseCode);
-      lcd.clear();
-      lcd.setCursor(0,0);
-      lcd.print("Data Sent");
-      lcd.setCursor(0,1);
-      lcd.print(httpResponseCode);
-      delay(2000);
-    } else {
-      Serial.print("Error sending data: ");
-      Serial.println(httpResponseCode);
-      lcd.clear();
-      lcd.setCursor(0,0);
-      lcd.print("Data Not Sent");
-      lcd.setCursor(0,1);
-      lcd.print(httpResponseCode);
-      delay(200);
-    }
-
-    http.end();
-  } else {
-    Serial.println("WiFi Disconnected");
-    lcd.clear();
-    lcd.setCursor(0,0);
-    lcd.print("NO Wifi ");
-    delay(500);
-  }
-
-  delay(2000); 
 }
 
