@@ -70,49 +70,57 @@ void setup() {
 
 void loop() {
   // Collect sensor data
-  float humidity = dht.readHumidity();
-  float temperature = dht.readTemperature();
+  // float humidity = dht.readHumidity();
+  // float temperature = dht.readTemperature();
 
-  float mos=analogRead(soil_moisture); // just to stabilize reading
-  Serial.print("Soil Moisture: ");
-  Serial.println(mos);
-  Serial.println();
+  // float mos=analogRead(soil_moisture); // just to stabilize reading
+  // Serial.print("Soil Moisture: ");
+  // Serial.println(mos);
+  // Serial.println();
 
 
-  if (isnan(humidity) || isnan(temperature)) {
-    Serial.println("Failed to read from DHT sensor!");
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("DHT Error!");
-    delay(2000);
-    return;
-  }
+  // if (isnan(humidity) || isnan(temperature)) {
+  //   Serial.println("Failed to read from DHT sensor!");
+  //   lcd.clear();
+  //   lcd.setCursor(0, 0);
+  //   lcd.print("DHT Error!");
+  //   delay(2000);
+  //   return;
+  // }
 
   // fetch  data from 7 in 1 sensor
-float humidity, temperature, conductivity, pH, nitrogen, phosphorus, potassium;
-extractData(data, &humidity, &temperature, &conductivity, &pH, &nitrogen, &phosphorus, &potassium);
-
-
+  RS485Data data = fetchData();
 
   // Predict crop
-  int predClass = RF.predict(nitrogen, phosphorus, potassium, humidity, temperature, pH, conductivity);
+ float input[7] = {
+    data.nitrogen,
+    data.phosphorus,
+    data.potassium,
+    data.temperature,
+    data.humidity,
+    data.pH,
+    data.conductivity
+};
+
+int predClass = RF.predict(input); 
   const char* crop = crops[predClass];
 
   // Print on Serial Monitor
   Serial.print("Nitrogen:");
-  Serial.println(data[4]);
+  Serial.println(data.nitrogen );
   Serial.print("Phosporus: ");
-  Serial.println(data[5]);
+  Serial.println(data.phosphorus);
   Serial.print("Potasium: ");
-  Serial.println(data[6]);
+  Serial.println(data.potassium );
   Serial.print("Temperature: ");
-  Serial.println(temperature);
+  Serial.println(data.temperature);
   Serial.print("Humidity: ");
-  Serial.println(humidity);
+  Serial.println(data.humidity);
   Serial.print("pH: ");
-  Serial.println(data[3]);
+  Serial.println(data.pH);
   Serial.print("Rainfall: ");
-  Serial.println(data[2]);
+  Serial.println(data.conductivity  );
+  Serial.println("-----\n");
   Serial.print("Predicted Crop: ");
   Serial.println(crop);
   Serial.println();
@@ -128,27 +136,10 @@ extractData(data, &humidity, &temperature, &conductivity, &pH, &nitrogen, &phosp
   lcd.print(crop);
   lcd.setCursor(0, 1);
   lcd.print("T:");
-  lcd.print(temperature, 1);
+  lcd.print(data.temperature, 1);
   lcd.print("C H:");
-  lcd.print(humidity, 0);
+  lcd.print(data.humidity, 0);
 
-  // // Send data to web
-  // int button = analogRead(A0);
-  // //Serial.println(button);
-  // if (button >500){
-  //   //Serial.println(button);
-  //   sendWeb(temperature,humidity,Rainfall,pH,N,P,K);
-  // }
-  // else{
-  //   Serial.println("Sender mode not ACTIVATED");
-  //   lcd.clear();
-  //   lcd.setCursor(0,0);
-  //   lcd.print("Sender mode");
-  //   lcd.setCursor(0,1);
-  //   lcd.print("Not Activated");
-  //   delay(500);
-  //   lcd.clear();
-  // }
 
    delay(5000);
 }

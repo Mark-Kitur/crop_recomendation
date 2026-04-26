@@ -113,14 +113,14 @@ void extractData(struct RS485Data outputs, float *humidity, float *temperature, 
     *potassium = outputs.potassium;     
 }
 
-void fetchData() {
+RS485Data fetchData() {
+    RS485Data data;
     float values[7];
     bool ok;
 
     for (int i = 0; i < 7; i++) {
 
-        bool scale = (i == 0 || i == 1 || i == 3);  
-        // humidity, temperature, pH
+        bool scale = (i == 0 || i == 1 || i == 3);
 
         ok = readRegister((uint8_t *)CMD[i], values[i], scale);
 
@@ -130,27 +130,20 @@ void fetchData() {
         if (ok) {
             Serial.println(values[i]);
         } else {
-            values[i] = -1;  // mark error
+            values[i] = -1;
             Serial.println("Error");
         }
 
         delay(100);
     }
 
-    Serial.println("-----");
-    delay(2000);
+    data.humidity     = values[0];
+    data.temperature   = values[1];
+    data.conductivity  = values[2];
+    data.pH            = values[3];
+    data.nitrogen      = values[4];
+    data.phosphorus    = values[5];
+    data.potassium     = values[6];
 
-    // Store values in outputs struct
-    struct RS485Data data = {
-        values[0], // humidity
-        values[1], // temperature
-        values[2], // conductivity
-        values[3], // pH
-        values[4], // nitrogen
-        values[5], // phosphorus
-        values[6]  // potassium
-    };
-    float humidity, temperature, conductivity, pH, nitrogen, phosphorus, potassium;
-    extractData(data, &humidity, &temperature, &conductivity, &pH, &nitrogen, &phosphorus, &potassium);
-
+    return data;
 }
