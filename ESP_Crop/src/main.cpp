@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <LiquidCrystal.h>
+#include <LiquidCrystal_I2C.h>
 #include <DHT.h>
 
 
@@ -19,10 +19,10 @@ const char* serverName = "http://10.125.163.244:3000/data_points";
 
 int pin=5;
 // LCD setup
-const int RS = 4, EN = 0, d4 = 14, d5 = 12, d6 = 13, d7 = 15;   
-int soil_moisture=A0;
-LiquidCrystal lcd(RS, EN, d4, d5, d6, d7);
-//0704554187
+// const int RS = 4, EN = 0, d4 = 14, d5 = 12, d6 = 13, d7 = 15;   
+// int soil_moisture=A0;
+// LiquidCrystal lcd(RS, EN, d4, d5, d6, d7);
+// //0704554187
 // DHT11 setup
 #define DHTPIN 2     
 #define DHTTYPE DHT11    
@@ -41,13 +41,15 @@ const char* crops[] = {
 };
 
 
+LiquidCrystal_I2C lcd(0x27, 16, 2); // Adjust the I2C address if needed
 
 
 void setup() {
   Serial.begin(9600);
-  pinMode(soil_moisture, INPUT);
   dht.begin();
-  lcd.begin(16, 2);
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0, 0);  
   lcd.print("Smart Farming");
   delay(2000);
   lcd.clear();
