@@ -2,99 +2,49 @@
 #include <LiquidCrystal_I2C.h>
 #include <DHT.h>
 
+#include "model.h"
+#include "7_in_1.h"   // includes RS485 support
 
+// set the LCD number of columns and rows
+const int lcdColumns = 16;
+const int lcdRows = 2;
 
-#include "model.h" 
-#include "7_in_1.h"
+LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows);  
 
-// #include <ESP8266WiFi.h>         
-// #include <ESP8266HTTPClient.h>   
-
-
-// WiFi credentials
-const char* ssid = "Blue Ocean AP";
-const char* password = "EnjoyYourStay";
-
-const char* serverName = "http://10.125.163.244:3000/data_points";
-
-int pin=5;
-// LCD setup
-// const int RS = 4, EN = 0, d4 = 14, d5 = 12, d6 = 13, d7 = 15;   
-// int soil_moisture=A0;
-// LiquidCrystal lcd(RS, EN, d4, d5, d6, d7);
-// //0704554187
-// DHT11 setup
-#define DHTPIN 2     
-#define DHTTYPE DHT11    
+#define DHTPIN 2
+#define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
-// Machine Learning
-Eloquent::ML::Port::RandomForest RF; 
+Eloquent::ML::Port::RandomForest RF;
 
 const char* crops[] = {
-  "Chickpea", "Watermelon", "Jute", "Muskmelon",
-  "Kidneybeans", "Mothbeans", "Rice", "Pomogranate",
-  "Maize", "Pigeon peas", "Grapes", "Mango",
-  "Coconut", "Coffee", "Cotton", "Apple",
-  "Mungbeans", "Blackgram", "Orange", "Lentil",
-  "Papaya", "Banana"
+  "Chickpea","Watermelon","Jute","Muskmelon",
+  "Kidneybeans","Mothbeans","Rice","Pomegranate",
+  "Maize","Pigeon peas","Grapes","Mango",
+  "Coconut","Coffee","Cotton","Apple",
+  "Mungbeans","Blackgram","Orange","Lentil",
+  "Papaya","Banana"
 };
-
-
-LiquidCrystal_I2C lcd(0x27, 16, 2); // Adjust the I2C address if needed
-
 
 void setup() {
   Serial.begin(9600);
   dht.begin();
   lcd.init();
   lcd.backlight();
-  lcd.setCursor(0, 0);  
+
+  lcd.setCursor(0,0);
   lcd.print("Smart Farming");
-  delay(2000);
+  delay(1500);
   lcd.clear();
-  randomSeed(analogRead(A0));  
 
-  // initilize 7_in_1 sensor
-  setitup();
-
-  // //  Connect to WiFi
-  // WiFi.begin(ssid, password);
-  // Serial.print("Connecting to WiFi");
-  // while (WiFi.status() != WL_CONNECTED) {
-  //   delay(1000);
-  //   Serial.print(".");
-  // }
-  // Serial.println("\nConnected to WiFi!");
-  // Serial.print("IP Address: ");
-  // Serial.println(WiFi.localIP());
+  setitup();  // RS485 init
 }
 
 void loop() {
-  // Collect sensor data
-  // float humidity = dht.readHumidity();
-  // float temperature = dht.readTemperature();
 
-  // float mos=analogRead(soil_moisture); // just to stabilize reading
-  // Serial.print("Soil Moisture: ");
-  // Serial.println(mos);
-  // Serial.println();
-
-
-  // if (isnan(humidity) || isnan(temperature)) {
-  //   Serial.println("Failed to read from DHT sensor!");
-  //   lcd.clear();
-  //   lcd.setCursor(0, 0);
-  //   lcd.print("DHT Error!");
-  //   delay(2000);
-  //   return;
-  // }
-
-  // fetch  data from 7 in 1 sensor
   RS485Data data = fetchData();
 
-  // Predict crop
- float input[7] = {
+  float input[7] = {
     data.nitrogen,
     data.phosphorus,
     data.potassium,
@@ -102,47 +52,21 @@ void loop() {
     data.humidity,
     data.pH,
     data.conductivity
-};
+  };
 
-int predClass = RF.predict(input); 
-  const char* crop = crops[predClass];
+  int pred = RF.predict(input);
+  const char* crop = crops[pred];
 
-  // Print on Serial Monitor
-  Serial.print("Nitrogen:");
-  Serial.println(data.nitrogen );
-  Serial.print("Phosporus: ");
-  Serial.println(data.phosphorus);
-  Serial.print("Potasium: ");
-  Serial.println(data.potassium );
-  Serial.print("Temperature: ");
-  Serial.println(data.temperature);
-  Serial.print("Humidity: ");
-  Serial.println(data.humidity);
-  Serial.print("pH: ");
-  Serial.println(data.pH);
-  Serial.print("Rainfall: ");
-  Serial.println(data.conductivity  );
-  Serial.println("-----\n");
-  Serial.print("Predicted Crop: ");
+  Serial.println("\nPredicted Crop: ");
   Serial.println(crop);
-  Serial.println();
-  Serial.println();
-  Serial.println();
+
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Crop:");
+
+  lcd.setCursor(0,1);
+  lcd.print(crop);
   
 
-
-  // Display on LCD
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("Crop: ");
-  lcd.print(crop);
-  lcd.setCursor(0, 1);
-  lcd.print("T:");
-  lcd.print(data.temperature, 1);
-  lcd.print("C H:");
-  lcd.print(data.humidity, 0);
-
-
-   delay(5000);
+  delay(3000);
 }
-
