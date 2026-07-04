@@ -11,9 +11,9 @@ const int lcdRows = 2;
 
 LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows);  
 
-#define DHTPIN 2
-#define DHTTYPE DHT11
-DHT dht(DHTPIN, DHTTYPE);
+// #define DHTPIN 2
+// #define DHTTYPE DHT11
+// DHT dht(DHTPIN, DHTTYPE);
 
 Eloquent::ML::Port::RandomForest RF;
 
@@ -28,7 +28,7 @@ const char* crops[] = {
 
 void setup() {
   Serial.begin(9600);
-  dht.begin();
+  // dht.begin();
   lcd.init();
   lcd.backlight();
 
@@ -39,7 +39,6 @@ void setup() {
 
   setitup();  // RS485 init
 }
-
 void loop() {
 
   RS485Data data = fetchData();
@@ -54,19 +53,57 @@ void loop() {
     data.conductivity
   };
 
+  const char* labels[] = {
+    "Nitrogen",
+    "Phosphorus",
+    "Potassium",
+    "Temp",
+    "Humidity",
+    "pH",
+    "EC"
+  };
+
+  const char* units[] = {
+    "mg/kg",
+    "mg/kg",
+    "mg/kg",
+    "C",
+    "%",
+    "",
+    "uS/cm"
+  };
+
+  // Display all sensor readings
+  for (int i = 0; i < 7; i++) {
+    lcd.clear();
+
+    lcd.setCursor(0, 0);
+    lcd.print(labels[i]);
+
+    lcd.setCursor(0, 1);
+    lcd.print(input[i], 1);
+
+    if (strlen(units[i]) > 0) {
+      lcd.print(" ");
+      lcd.print(units[i]);
+    }
+
+    delay(2000);
+  }
+
+  // Predict crop
   int pred = RF.predict(input);
   const char* crop = crops[pred];
 
-  Serial.println("\nPredicted Crop: ");
+  Serial.print("Predicted Crop: ");
   Serial.println(crop);
 
   lcd.clear();
-  lcd.setCursor(0,0);
-  lcd.print("Crop:");
+  lcd.setCursor(0, 0);
+  lcd.print("Recommended");
 
-  lcd.setCursor(0,1);
+  lcd.setCursor(0, 1);
   lcd.print(crop);
-  
 
-  delay(3000);
+  delay(5000);
 }
